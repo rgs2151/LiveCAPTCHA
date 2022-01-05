@@ -1,4 +1,37 @@
-body {
-    font-family: sans-serif;
-  }
-  
+.modal-xl {
+  max-width: 900px !important;
+  max-height: 500px !important;
+}
+#video{
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+}
+
+@media only screen and (max-width: 540px) {
+      canvas{
+        height: 75% !important;
+      }
+      .font-weight-normal{
+        text-align: center !important;
+      }
+      nav{
+        display: none !important;
+      }
+      #signupImage{
+        display: none !important;
+        
+      }
+      #registerForm{
+        flex: none !important;
+        max-width: 100% !important;
+        flex-basis: unset !important;
+      }
+      .row{
+        display:block !important;
+      }
+
+      .card-body{
+        border:none !important;
+      }
+}
