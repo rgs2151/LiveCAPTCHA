@@ -35,7 +35,8 @@ def secret_code_check():
     result = validate_secret_R(request)
     if not result['ERROR']:
         secret = result['secret']
-        if not sql.check_client_licence_code_exists(secret):
+        domain = result['domain']
+        if not sql.check_client_licence_code_exists(secret, domain):
             result = {'ERROR': True, 'secret': None, 'message': 'secret invalid', 'CODE': 4}
 
     # validate secret from client table here
@@ -47,10 +48,11 @@ def success_count():
     result = validate_secret_R(request)
     if not result['ERROR']:
         secret = result['secret']
-        if not sql.check_client_licence_code_exists(secret):
+        domain = result['domain']
+        if not sql.check_client_licence_code_exists(secret, domain):
             result = {'ERROR': True, 'secret': None, 'message': 'secret invalid', 'CODE': 4}
         else:
-            sql.increment_count(secret)
+            sql.increment_count(secret, domain)
             result = {'ERROR': False, 'secret': None, 'message': 'Success', 'CODE': 0}
     return result
 

@@ -11,11 +11,12 @@ def validate_secret_R(request: request, key='secret'):
         if req:
             if key not in req: raise SecretKeyInvalid(f'secret key |{key}| missing')
             value = req[key]
+            domain = req['domain']
             if not isinstance(value, str): raise SecretKeyInvalid(f'secret key NOT str')
             if len(value) != 16: raise SecretKeyInvalid(f'secret key length incorrect')
-            return {'ERROR': False, 'secret': value, 'message': 'success'}
+            return {'ERROR': False, 'secret': value, 'domain':domain, 'message': 'success'}
         else:
             raise SecretKeyInvalid('request not json serializable', 5)
 
     except SecretKeyInvalid as err:
-        return {'ERROR': True, 'secret': None, 'message':err.message, 'CODE': err.code}
+        return {'ERROR': True, 'secret': None, 'domain':None, 'message':err.message, 'CODE': err.code}

@@ -1,19 +1,19 @@
 class AzyoCaptcha{
 
   constructor(id, trigger, holder, onfinish){
+    this.init_imports()
     this.validated = false
     $.ajax({
       type: "POST",
       enctype: 'JSON',
       url: 'http://192.168.0.105:5003/secret_code_check',
       headers: { 'Access-Control-Allow-Origin': 'http://192.168.0.106:5003/log' },
-      data: JSON.stringify({'secret': id}),
+      data: JSON.stringify({'secret': id, 'domain': window.location.hostname}),
       processData: false,
       'contentType': 'application/json',
       cache: false,
       success: res => {
         if (res['ERROR']) {
-            // alert('SECRET KEY INVALID')
             console.warn('API KEY INVALID', res)
         } else {
           this.value = {faceLandmarks: "", rightHandLandmarks : "", image: ""}
@@ -77,6 +77,18 @@ class AzyoCaptcha{
 
   }
 
+  init_imports(){
+    $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">');
+    $('head').append('<link rel= "stylesheet" href="styles.css">');
+    $('head').append('<script defer src="ext/blockui.min.js" ></script>');
+    $('head').append('<script src="utils/camera_utils.js"></script>');
+    $('head').append('<script src="utils/drawing_utils.js"></script>');
+    $('head').append('<script src="models/face_mesh/face_mesh.js"></script>');
+    $('head').append('<script src="models/hands/hands.js"></script>');
+    // $('head').append('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>');
+    $('head').append('<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>');
+    $('head').append('<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>');
+  }
   
   start_the_show(){
     $('#CaptureModal').modal('show');
@@ -95,6 +107,8 @@ class AzyoCaptcha{
     this.camera.start();
   }
 
+
+
   setup_divs(hol){
     // var holder = document.getElementById("azyo_holder")
     var holder = document.getElementById(hol)
@@ -102,12 +116,14 @@ class AzyoCaptcha{
     holder.innerHTML = `<div class="modal fade" id="CaptureModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered modal-xl" id="block-area2" style="box-shadow:none">
       <div class="modal-content" >
-        <div class="modal-body">
+        <div class="modal-body" style = "padding:0px">
             <div class="container bg-white">
                 <div class="row">
                   <div class="col-12">
                     <div class="card-body">
-                      <h4 class="font-weight-bold text-center">AZYO’s Facial Recognition
+                      <h4 class="font-weight-bold text-center">
+                      <img src="images/azyo shield logo.png" width = "27px" style = "margin-bottom: 5px;">
+                      AZYO SHIELD
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
                         <span aria-hidden="true">&times;</span>
                       </button></h4>
@@ -135,6 +151,7 @@ class AzyoCaptcha{
                       <br>
                       <div class="text-center">
                         <h6>Please ensure that your face is visible at all times</h6>
+                        <h10 style = "opacity:0.3;">powered by azyo</h10>
                         <button id="capture" class="btn btn-hover-shine btn-warning w-50" >Register Your Face</button>
                       </div>
                     </div>
@@ -528,7 +545,7 @@ class AzyoCaptcha{
       enctype: 'JSON',
       url: "http://192.168.0.105:5003//success_count",
       headers: { 'Access-Control-Allow-Origin': 'http://192.168.0.106:5003/log' },
-      data: JSON.stringify({'secret': id}),
+      data: JSON.stringify({'secret': id, 'domain': window.location.hostname}),
       processData: false,
       'contentType': 'application/json',
       cache: false,

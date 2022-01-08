@@ -33,5 +33,9 @@
 
       .card-body{
         border:none !important;
+        padding:none !important;
       }
+}
+.card-body{
+  padding:none !important;
 }

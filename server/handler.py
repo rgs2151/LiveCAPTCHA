@@ -19,15 +19,15 @@ class MySQLConnect:
         self.app = flask_app
         self.mysql = MySQL(self.app)
 
-    def check_client_licence_code_exists(self, secret):
+    def check_client_licence_code_exists(self, secret, domain):
         cursor = self.mysql.connection.cursor()
-        cursor.execute(f"SELECT licence_code FROM client WHERE licence_code='{secret}'")
+        cursor.execute(f"SELECT licence_code FROM client WHERE licence_code='{secret}' AND domain_name='{domain}'")
         licence_code = cursor.fetchall()
         return True if licence_code else False
 
-    def increment_count(self, secret):
+    def increment_count(self, secret, domain):
         cursor = self.mysql.connection.cursor()
-        cursor.execute(f"SELECT success_count FROM client WHERE licence_code='{secret}'")
+        cursor.execute(f"SELECT success_count FROM client WHERE licence_code='{secret}' AND domain_name='{domain}'")
         licence_code = cursor.fetchall()
         print(licence_code)
         new_sc = int(licence_code[0][0]) + 1
